@@ -35,20 +35,18 @@
 
     <p>Ye meri pehli website hai.</p>
 
-    <button onclick="hello()">Click Me</button>
+    <button onclick="showWelcome()">🚀 Enter Portfolio</button>
     <div class="social-icons">
     <a href="https://www.instagram.com/divyanshusingh_610/" target="_blank">📷 Instagram</a>
 
     <a href="https://www.youtube.com/@hidden.gamer11" target="_blank">▶️ YouTube</a>
 
-    <a href="https://github.com/" target="_blank">💻 GitHub</a>
+    <a href="https://github.com/divyanshusingh108" target="_blank">💻 GitHub</a>
 </div>
 </section>
 
     <script>
-        function hello() {
-            alert("Hello! Website is working.");
-        }
+        
         const text = [
     "Future Web Developer",
     "Student",
@@ -191,9 +189,36 @@ form.addEventListener("submit", async (e) => {
         success.style.color = "red";
     }
 });
+
+function showWelcome(){
+    document.getElementById("welcomeBox").style.display = "flex";
+}
+
+function closeWelcome(){
+    document.getElementById("welcomeBox").style.display = "none";
+}
+
 </script>
 
+<div id="welcomeBox" class="welcome-box">
 
+    <div class="welcome-card">
+
+        <img src="logo.png" class="welcome-logo">
+
+        <h1>👋 Welcome!</h1>
+
+        <h2>Divyanshu Singh Portfolio</h2>
+
+        <p>Thanks for visiting my website.</p>
+
+        <p>Explore my projects, skills and journey.</p>
+
+        <button onclick="closeWelcome()">Start Exploring</button>
+
+    </div>
+
+</div>
 
 </body>
 </html>
