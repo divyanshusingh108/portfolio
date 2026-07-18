@@ -154,7 +154,7 @@ function darkMode() {
 <section id="meeting">
     <h2>📅 Book a Meeting</h2>
 
-    <form action="https://formspree.io/f/xojgdqkg" method="POST">
+    <form id="meeting-form" action="https://formspree.io/f/xojgdqkg" method="POST">
 
         <input type="text" name="name" placeholder="Your Name" required>
 
@@ -167,6 +167,8 @@ function darkMode() {
         <textarea name="message" placeholder="Why do you want to meet?" rows="4"></textarea>
 
         <button type="submit">Book Meeting</button>
+
+        <p id="meeting-success"></p>
 
     </form>
 </section>
@@ -223,6 +225,32 @@ function showWelcome(){
 function closeWelcome(){
     document.getElementById("welcomeBox").style.display = "none";
 }
+
+const meetingForm = document.getElementById("meeting-form");
+const meetingSuccess = document.getElementById("meeting-success");
+
+meetingForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const data = new FormData(meetingForm);
+
+    const response = await fetch(meetingForm.action, {
+        method: "POST",
+        body: data,
+        headers: {
+            Accept: "application/json"
+        }
+    });
+
+    if (response.ok) {
+        meetingSuccess.innerHTML = "✅ Meeting request sent successfully!";
+        meetingSuccess.style.color = "lime";
+        meetingForm.reset();
+    } else {
+        meetingSuccess.innerHTML = "❌ Failed to send meeting request!";
+        meetingSuccess.style.color = "red";
+    }
+});
 
 </script>
 
