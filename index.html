@@ -290,5 +290,31 @@ s0.parentNode.insertBefore(s1,s0);
 </script>
 <!--End of Tawk.to Script-->
 
+<!-- DS AI Chat -->
+<div id="chat-toggle">🤖</div>
+
+<div id="chat-box" class="hidden">
+  <div class="chat-header">
+    <span>DS AI Assistant</span>
+    <button id="close-chat">✖</button>
+  </div>
+
+  <div id="chat-messages">
+    <div class="bot-message">
+      👋 Hello! Main DS AI hoon. Aapki kya help kar sakta hoon?
+    </div>
+  </div>
+
+  <div class="chat-input">
+    <input type="text" id="user-input" placeholder="Type your message...">
+    <button id="send-btn">Send</button>
+  </div>
+</div>
+
+
+
+<script type="module" src="firebase.js"></script>
+<script type="module" src="chat.js"></script>
+
 </body>
 </html>
