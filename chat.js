@@ -60,7 +60,18 @@ async function sendMessage(){
 
     const data = await response.json();
 
-    bots[bots.length - 1].innerHTML = "🤖 " + data.reply;
+  const data = await response.json();
+
+console.log("Status:", response.status);
+console.log("Response:", data);
+
+if (!response.ok) {
+  bots[bots.length - 1].innerHTML =
+    "❌ " + (data.error || "Unknown Error");
+} else {
+  bots[bots.length - 1].innerHTML =
+    "🤖 " + data.reply;
+}
 
   } catch (error) {
     bots[bots.length - 1].innerHTML = "❌ AI server error.";
