@@ -1,49 +1,73 @@
-export default async function handler(req, res) {
+import { db } from "./firebase.js";
+import {
+  collection,
+  addDoc
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js"; 
+const toggle = document.getElementById("chat-toggle");
+const chatBox = document.getElementById("chat-box");
+const closeBtn = document.getElementById("close-chat");
+const sendBtn = document.getElementById("send-btn");
+const input = document.getElementById("user-input");
+const messages = document.getElementById("chat-messages");
 
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
-  }
+toggle.onclick = () => {
+    chatBox.classList.remove("hidden");
+};
+
+closeBtn.onclick = () => {
+    chatBox.classList.add("hidden");
+};
+
+sendBtn.onclick = sendMessage;
+
+input.addEventListener("keypress",(e)=>{
+    if(e.key==="Enter") sendMessage();
+});
+
+async function sendMessage(){
+
+    let text=input.value.trim();
+
+    if(text==="") return;
+
+    messages.innerHTML+=`
+    <div class="user-message">${text}</div>
+    `;
+
+    input.value="";
+
+
+
+    messages.innerHTML+=`
+    <div class="bot-message">Typing...</div>
+    `;
+
+    messages.scrollTop=messages.scrollHeight;
+
+    setTimeout(async () => {
+  const bots = document.querySelectorAll(".bot-message");
 
   try {
-    const { message } = req.body;
-
-    const response = await fetch(
-      "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" +
-      process.env.GEMINI_API_KEY,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          contents: [
-            {
-              parts: [
-                {
-                  text: message
-                }
-              ]
-            }
-          ]
-        })
-      }
-    );
+    const response = await fetch("/api/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        message: text
+      })
+    });
 
     const data = await response.json();
 
-    console.log("Gemini Status:", response.status);
-console.log("Gemini Response:", data);
+    bots[bots.length - 1].innerHTML = "🤖 " + data.reply;
 
-    const reply =
-      data.candidates?.[0]?.content?.parts?.[0]?.text ||
-      "Sorry, I couldn't generate a response.";
-
-    return res.status(200).json({ reply });
-
-  } catch (err) {
-    return res.status(500).json({
-      error: err.message
-    });
+  } catch (error) {
+    bots[bots.length - 1].innerHTML = "❌ AI server error.";
+    console.error(error);
   }
 
-}
+  messages.scrollTop = messages.scrollHeight;
+}, 1000);
+
+ }
